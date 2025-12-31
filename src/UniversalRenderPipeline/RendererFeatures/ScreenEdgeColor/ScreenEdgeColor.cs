@@ -8,7 +8,7 @@ namespace Kinemagic.Rendering.Universal
     public sealed class ScreenEdgeColor : VolumeComponent, IPostProcessComponent
     {
         [FormerlySerializedAs("Intensity")]
-        public ClampedFloatParameter IntensityParam = new ClampedFloatParameter(0.1f, 0f, 1f, overrideState: true);
+        public ClampedFloatParameter IntensityParam = new ClampedFloatParameter(0f, 0f, 1f, overrideState: true);
 
         [FormerlySerializedAs("TopLeftColor")]
         public ColorParameter TopLeftColorParam = new ColorParameter(Color.cyan, overrideState: true);
