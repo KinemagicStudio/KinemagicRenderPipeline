@@ -6,6 +6,5 @@ namespace Kinemagic.Rendering.Universal
     {
         public abstract string GetName();
         public abstract bool IsActive();
-        public abstract void SetActive(bool value);
     }
 }
