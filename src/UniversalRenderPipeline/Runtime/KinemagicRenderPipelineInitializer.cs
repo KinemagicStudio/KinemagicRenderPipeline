@@ -11,10 +11,7 @@ namespace Kinemagic.Rendering.Universal
 
             var factoryProvider = PostProcessRenderPassFactoryProvider.Instance;
 
-            // factoryProvider.Register<ScreenEdgeColor>(_ =>
-            // {
-            //     return new ScreenEdgeColorRenderPass();
-            // });
+            factoryProvider.Register<ScreenEdgeColor>(_ => new ScreenEdgeColorRenderPass());
         }
     }
 }

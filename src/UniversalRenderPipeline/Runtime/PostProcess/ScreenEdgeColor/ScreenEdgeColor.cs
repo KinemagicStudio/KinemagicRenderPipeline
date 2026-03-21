@@ -1,33 +1,21 @@
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 
 namespace Kinemagic.Rendering.Universal
 {
-    [VolumeComponentMenu("Kinemagic/Post-processing/ScreenEdgeColor")]
-    public sealed class ScreenEdgeColor : VolumeComponent, IPostProcessComponent
+    [System.Serializable]
+    [CreateAssetMenu(menuName = "Kinemagic/PostProcess/ScreenEdgeColor")]
+    public sealed class ScreenEdgeColor : PostProcessComponent
     {
-        [FormerlySerializedAs("Intensity")]
-        public ClampedFloatParameter IntensityParam = new ClampedFloatParameter(0f, 0f, 1f, overrideState: true);
+        public bool IsEnabled { get; set; } = true;
+        public string PassName = "ScreenEdgeColor";
 
-        [FormerlySerializedAs("TopLeftColor")]
-        public ColorParameter TopLeftColorParam = new ColorParameter(Color.cyan, overrideState: true);
+        [Range(0f, 1f)] public float Intensity = 0f;
+        public Color TopLeftColor = Color.cyan;
+        public Color TopRightColor = Color.magenta;
+        public Color BottomLeftColor = Color.yellow;
+        public Color BottomRightColor = Color.red;
 
-        [FormerlySerializedAs("TopRightColor")]
-        public ColorParameter TopRightColorParam = new ColorParameter(Color.magenta, overrideState: true);
-
-        [FormerlySerializedAs("BottomLeftColor")]
-        public ColorParameter BottomLeftColorParam = new ColorParameter(Color.yellow, overrideState: true);
-
-        [FormerlySerializedAs("BottomRightColor")]
-        public ColorParameter BottomRightColorParam = new ColorParameter(Color.red, overrideState: true);
-
-        public float Intensity => IntensityParam.value;
-        public Color TopLeftColor => TopLeftColorParam.value;
-        public Color TopRightColor => TopRightColorParam.value;
-        public Color BottomLeftColor => BottomLeftColorParam.value;
-        public Color BottomRightColor => BottomRightColorParam.value;
-
-        public bool IsActive() => Intensity > 0f;
+        public override string GetName() => PassName;
+        public override bool IsActive() => Intensity > 0f && IsEnabled;
     }
 }
