@@ -6,10 +6,6 @@ namespace Kinemagic.Rendering.Universal
     [System.Serializable]
     public sealed class FilmGrain : PostProcessComponent
     {
-        [Header("Film Grain")]
-        [Tooltip("The type of grain to use. Select a preset or choose Custom to use your own texture.")]
-        public FilmGrainLookup Type = FilmGrainLookup.Thin1;
-
         [Tooltip("The strength of the film grain effect.")]
         [Range(0f, 1f)]
         public float Intensity = 0f;
@@ -18,9 +14,25 @@ namespace Kinemagic.Rendering.Universal
         [Range(0f, 1f)]
         public float Response = 0.8f;
 
-        [Header("Custom Texture")]
+        [Header("Film Grain")]
+        [Tooltip("The type of grain to use. Select a preset or choose Custom to use your own texture.")]
+        public FilmGrainLookup Type = FilmGrainLookup.Thin1;
+
         [Tooltip("Key to identify the custom texture registered in FilmGrainTextureProvider. Only used when Type is set to Custom.")]
         public string CustomTextureKey;
+
+        [Header("Animation")]
+        [Tooltip("Grain frame index. When >= 0, used directly as the frame index (0 = static pattern). " +
+                "When negative, auto-calculated from engine time and FrameRate.")]
+        public int OverrideFrameIndex = -1;
+
+        [Tooltip("Random seed for grain offset. Same seed produces same pattern sequence.")]
+        public int Seed = 0;
+
+        [Tooltip("Grain animation update rate. When the value is 0, the update rate matches the rendering framerate. " +
+                "Only used when OverrideFrameIndex is negative.")]
+        [Range(0f, 120f)]
+        public float FrameRate = 0f;
 
         public override string GetName() => "FilmGrain";
 

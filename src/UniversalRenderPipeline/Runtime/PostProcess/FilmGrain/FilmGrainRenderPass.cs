@@ -68,11 +68,12 @@ namespace Kinemagic.Rendering.Universal
             float width = cameraData.cameraTargetDescriptor.width;
             float height = cameraData.cameraTargetDescriptor.height;
 
+            var offset = CalcGrainOffset(filmGrain);
             _material.SetVector(GrainTextureParamsPropId, new Vector4(
                 width / grainTexture.width,
                 height / grainTexture.height,
-                Random.value,
-                Random.value
+                offset.x,
+                offset.y
             ));
 
             // Set grain parameters (intensity scaled by 4 to match URP behavior)
@@ -106,6 +107,35 @@ namespace Kinemagic.Rendering.Universal
             {
                 resourceData.cameraColor = destination;
             }
+        }
+
+        private static Vector2 CalcGrainOffset(FilmGrain filmGrain)
+        {
+            int grainFrameIndex;
+
+            if (filmGrain.OverrideFrameIndex >= 0)
+            {
+                grainFrameIndex = filmGrain.OverrideFrameIndex;
+            }
+            else if (filmGrain.FrameRate > 0f)
+            {
+                grainFrameIndex = Mathf.FloorToInt(Time.time * filmGrain.FrameRate);
+            }
+            else
+            {
+                grainFrameIndex = Time.frameCount;
+            }
+
+            return DeterministicOffset(filmGrain.Seed + grainFrameIndex);
+        }
+
+        private static Vector2 DeterministicOffset(int seed)
+        {
+            var oldState = Random.state;
+            Random.InitState(seed);
+            var offset = new Vector2(Random.value, Random.value);
+            Random.state = oldState;
+            return offset;
         }
     }
 }
