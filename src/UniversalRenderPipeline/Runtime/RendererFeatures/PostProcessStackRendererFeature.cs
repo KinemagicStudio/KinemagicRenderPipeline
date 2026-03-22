@@ -14,6 +14,9 @@ namespace Kinemagic.Rendering.Universal
     [DisallowMultipleRendererFeature("Post Process Stack")]
     public sealed class PostProcessStackRendererFeature : ScriptableRendererFeature
     {
+        [Tooltip("Settings asset containing shared resources for post-processing effects.")]
+        [SerializeField] private PostProcessStackSettings _settings;
+
         private PostProcessStackRenderGraphRecorder _renderGraphRecorder;
 
         public override void Create()
@@ -21,6 +24,16 @@ namespace Kinemagic.Rendering.Universal
             if (_renderGraphRecorder == null)
             {
                 _renderGraphRecorder = new PostProcessStackRenderGraphRecorder();
+            }
+
+            ApplySettings();
+        }
+
+        private void ApplySettings()
+        {
+            if (_settings != null)
+            {
+                _settings.ApplySettings();
             }
         }
 
